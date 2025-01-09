@@ -1,0 +1,61 @@
+\documentclass{article}
+
+\input{../preamble.tex}
+
+\begin{document}
+
+\section*{Exercise 1.2}
+
+\subsection*{Problem}
+
+Design a factor 2 approximation for the problem of finding a minimum cardinality 
+maximal matching in an undirected graph $G = (V, E)$. \newline
+
+\textbf{Matching.} A matching $M \subseteq E$ in a graph $G = (V, E)$ is a set of edges
+such that each $v \in V$ is incident to at most one edge $e \in M$. \newline
+
+\textbf{Maximal Matching.} A maximal matching is a set of edges $M \subseteq E$ such 
+that \begin{enumerate}
+    \item $M$ is a matching.
+    \item Every $M' \supset M$ is not a matching. 
+\end{enumerate}
+
+\textbf{Maximum Matching.} A maximum matching $M^* \subseteq E$ is the largest possible
+maximal matching.
+
+\subsection*{Solution}
+
+Start with an empty matching $M$. While $M$ is not maximal, add some edge to $M$ such 
+that $M$ is still a matching. Output the maximal matching $M$.
+
+\begin{lemma*}
+    Every maximal matching has at least $\frac{|M^*|}{2}$ edges.
+\end{lemma*}
+
+\begin{proof}
+    We claim that one vertex from each edge in $M^*$ must be matched in any maximal 
+    matching $M$. For sake of contradiction, suppose not. Then there exists some edge
+    $(u, v) \in M^*$ such that no edges in $M$ are incident to $u$ or $v$. Then 
+    $M \cup \{(u, v)\}$ is a matching so $M$ is not maximal. However, $M$ is maximal so 
+    this is a contradiction. Thus one vertex from each edge in $M^*$ must be in $M$ so 
+    there must be at least $\frac{|M*|}{2}$ edges in $M$.
+\end{proof}
+
+\begin{theorem*}
+    Any maximal matching is a factor 2 approximation.
+\end{theorem*}
+
+\begin{proof}
+    By the lemma, $\frac{|M^*|}{2} \leq |\opt|$ so $|M^*| \leq 2 |\opt|$. Since $M^*$ is
+    the largest possible maximal matching, $|M| \leq |M^*|$. Hence
+    \begin{align*}
+        |M| \leq |M^*| \leq 2 |\opt|
+    \end{align*}
+    as desired.
+\end{proof}
+
+\subsection*{Insights}
+
+Sometimes, all of the reasonable solutions are good approximations.
+
+\end{document}

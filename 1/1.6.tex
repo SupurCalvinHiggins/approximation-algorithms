@@ -1,0 +1,80 @@
+\documentclass{article}
+
+\input{../preamble.tex}
+
+\begin{document}
+
+\section*{Exercise 1.6}
+
+\subsection*{Problem}
+
+Give a lower bounding scheme for the arbitrary cost version of the vertex cover problem. 
+\\
+
+\textbf{Vertex Cover Problem.} Given an undirected graph $G = (V, E)$ and a cost 
+function $c : V \rightarrow \mathbb{Q}^+$ find the minimum cost vertex cover, where the
+cost of a cover $U$ is $c(U) = \sum\limits_{u \in U} c(u)$.
+
+\subsection*{Solution}
+
+The vertex cover problem is equivalent to the following 
+\begin{align*}
+    \text{minimize} \quad & \sum\limits_{v \in V} x_v c(v) \\
+    \text{subject to} \quad
+        & x_u + x_v \geq 1 \quad & \forall (u, v) \in E \\
+        & x_v \in \{0, 1\} \quad & \forall v \in V
+\end{align*}
+integer linear program. The variable $x_v$ takes the value $1$ if and only if $v$ is in 
+the computed vertex cover. \\
+
+The ILP has the following
+\begin{align*}
+    \text{minimize} \quad & \sum\limits_{v \in V} x_v c(v) \\
+    \text{subject to} \quad
+        & x_u + x_v \geq 1 \quad & \forall (u, v) \in E \\
+        & x_v \geq 0 \quad & \forall v \in V
+\end{align*}
+linear programming relaxation. Define
+\begin{align*}
+    U = \{v : x_v \geq \frac{1}{2} \text{ and } v \in V\}
+\end{align*}
+to be the solution to vertex cover based on the LP-relaxation.
+
+\begin{theorem*}
+    The set $U$ is a vertex cover.
+\end{theorem*}
+
+\begin{proof}
+    Fix some arbitrary edge $(u, v) \in E$. Since $x_u + x_v \geq 1$ and 
+    $x_u, x_v \geq 0$, $x_u \geq \frac{1}{2}$ or $x_v \geq \frac{1}{2}$. Then $u \in V$
+    or $v \in V$ so $(u, v)$ is covered. Hence $U$ is a vertex cover.
+\end{proof}
+
+\begin{theorem*}
+    The inequality $c(U) \leq 2 \opt_{LP}$ holds.
+\end{theorem*}
+
+\begin{proof}
+    We have that
+    \begin{align*}
+        c(U) = \sum\limits_{u \in U} 1 \leq \sum\limits_{u \in U} 2 x_u \leq 
+        \sum\limits_{v \in V} 2 x_v = 2 \sum\limits_{v \in V} x_v = 2 \opt_{LP}
+    \end{align*}
+    as desired.
+\end{proof}
+
+\begin{theorem*}
+    $U$ is a factor 2 approximation.
+\end{theorem*}
+
+\begin{proof}
+    We have that
+    \begin{align*}
+        c(U) \leq 2 \opt_{LP} \leq 2 \opt
+    \end{align*}
+    as desired.
+\end{proof}
+
+\subsection*{Insights}
+
+\end{document}

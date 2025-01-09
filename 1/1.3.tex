@@ -1,0 +1,69 @@
+\documentclass{article}
+
+\input{../preamble.tex}
+
+\begin{document}
+
+\section*{Exercise 1.3}
+
+\subsection*{Problem}
+
+Consider the following factor 2 approximation algorithm for the cardinality vertex cover
+problem. Find a depth first search tree in the given graph, $G = (V, E)$, and output the 
+set, say $S$, of all the nonleaf vertices of this tree. Show that $S$ is indeed a vertex
+cover for $G$ and $|S| \leq 2 |\opt|$. \\
+
+\textbf{Vertex Cover.} A vertex cover of a graph $G = (V, E)$ is a set of vertices $S$
+such that each edge $e \in E$ is incident to at least one vertex $v \in S$. \\
+
+\textbf{Cardinality Vertex Cover Problem.} Given a graph $G = (V, E)$, compute the 
+minimum cardinality vertex cover.
+
+\subsection*{Solution}
+
+\begin{lemma*}
+    In the depth first search tree of $G = (V, E)$, there are no edges between leaf 
+    nodes.
+\end{lemma*}
+
+\begin{proof}
+    Let $L$ be the set of leaf vertices in the depth first search tree. For the sake of
+    contradiction, suppose not, suppose there exist some edge $\{u, v\} \in E$ such that
+    $u, v \in L$. Either $u$ or $v$ was explored first in the depth first search tree.
+    Without loss of generality, assume $u$ was explored first. Then $v$ must be a child
+    of $u$ in the depth first search tree since it is unexplored and reachable from $u$. 
+    Thus $u$ is not a leaf, which is a contradiction. There must be no edges between 
+    leaf nodes in the depth first search tree.
+\end{proof}
+
+\begin{lemma*}
+    The set of nonleaf vertices $S$ in the depth first search tree of $G = (V, E)$ is a 
+    vertex cover of $G$.
+\end{lemma*}
+
+\begin{proof}
+    Any edge $e \in E$ with a nonleaf endpoint is covered by $S$. Then, the only 
+    possible uncovered edges have two leaf endpoints. However, by the lemma, there are
+    no such edges. Hence $S$ is a vertex cover. 
+\end{proof}
+
+\begin{theorem*}
+    The set of nonleaf vertices $S$ in the depth first search tree of $G = (V, E)$ is a 
+    factor 2 approximation for the minimum cardinality vertex cover of $G$.
+\end{theorem*}
+
+\begin{proof}
+    We will show that there is maximal matching of size $|S|$. Construct a matching $M$
+    as follows. Starting with the root of the tree $r$, add $(r, u)$ to $M$ where $u$ is
+    the first child of $r$. Then recurse on the children of $u$ and the children of $r$
+    except $u$. Only recurse on nodes in $S$. This matching is incident to every vertex
+    in $S$. Moreover, by the lemma, this matching is maximal, since there are no edges
+    between vertices outside of $S$ and these are the only unmatched vertices. \\
+
+    By the approximate min-max relation between minimum maximal matching and cardinality
+    vertex cover, $|S|$ is a 2 approximation.
+\end{proof}
+
+\subsection*{Insights}
+
+\end{document}

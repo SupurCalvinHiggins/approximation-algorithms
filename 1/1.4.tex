@@ -1,0 +1,78 @@
+\documentclass{article}
+
+\input{../preamble.tex}
+
+\begin{document}
+
+\section*{Exercise 1.4}
+
+\subsection*{Problem}
+
+Perhaps the first strategy ones tries when designing an algorithm for an optimization 
+problem is the greedy strategy. For the cardinality vertex cover problem, this would 
+involve iteratively picking a maximum degree vertex and removing it, together with 
+edges incident at it, until there are no edges left. Show that this approximation 
+algorithm achieves an approximation guarantee of $O(\log n)$. Give a tight example for 
+this algorithm.
+
+\subsection*{Solution}
+
+% define the cost of covering an edge to be the 1/deg(v) where v was the vertex
+% that first covered the edge
+% consider iteration k + 1 of the algorithm
+
+
+% cost(e_k) <= OPT_k / remaining_k <= OPT / remaining_k <= OPT / n - k + 1
+
+% remaining_k <= n - k + 1
+
+% actually by def of e_k, remaining k = n - k + 1
+
+% minimum cost to cover the remaining edges <= OPT
+% then the average cost to cover remaining edges is <= OPT / (n - k) 
+% since at least k edges have been covered so there are at most n - k remaining
+% at least k edges have been covered
+
+% summing over cost(e_k) gives an upper bound of H_n OPT
+% and H_n is O(log n)
+
+% tight example...
+% probably need to force the choice of vertex at each step
+% maybe a star graph
+% in center, vertex of degree n
+% at each end, vertex of degree n - 1
+% and so on
+% 1 of n
+% n of n - 1
+% n * (n - 2) of n - 2
+% n * (n - 2) * (n - 4) of n - 3
+% ...
+
+% in center vertex of degree n + 1
+% at each end, vertex of degree n - 1
+% at each end, vertex of degree n - 3
+% n + 1 of n - 1
+
+% tree
+% n then n-1 then n-2 and so on of children
+% how many nodes
+% 1 + n + n(n-1) + n(n-1)(n-2) + ... + n(n-1)...2 + n!
+% algorithm takes everything but the last layer 
+% 1 + n + n(n-1) + n(n-1)(n-2) + ... + n(n-1)...2
+% optimal is every other
+% n + n(n-1)(n-2) + ...
+
+% the algorithm takes all of them
+% optimal doesnt take outermost, then third outermost, etc
+
+% n vertices on one side
+% n-1 on the other
+
+
+% smallest possible bad example
+% treecc cc cc cc
+% 9 / 13
+
+\subsection*{Insights}
+
+\end{document}
