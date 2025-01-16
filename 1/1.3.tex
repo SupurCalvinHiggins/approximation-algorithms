@@ -10,8 +10,8 @@
 
 Consider the following factor 2 approximation algorithm for the cardinality vertex cover
 problem. Find a depth first search tree in the given graph, $G = (V, E)$, and output the 
-set, say $S$, of all the nonleaf vertices of this tree. Show that $S$ is indeed a vertex
-cover for $G$ and $|S| \leq 2 |\opt|$. \\
+set, say $S$, of all the non-leaf vertices of this tree. Show that $S$ is indeed a 
+vertex cover for $G$ and $|S| \leq 2 |\opt|$. \\
 
 \textbf{Vertex Cover.} A vertex cover of a graph $G = (V, E)$ is a set of vertices $S$
 such that each edge $e \in E$ is incident to at least one vertex $v \in S$. \\
@@ -20,6 +20,18 @@ such that each edge $e \in E$ is incident to at least one vertex $v \in S$. \\
 minimum cardinality vertex cover.
 
 \subsection*{Solution}
+
+Define $v_1, v_2, ..., v_n \in V$ to be the depth first search order of the vertices. 
+That is, if $i < j$, then $v_i$ occurs before $v_j$ in the depth first search tree. \\
+
+\noindent
+Set $M \gets \emptyset$ and $i \gets 1$. While $i < n$
+\begin{enumerate}
+    \item If $v_i$ is not a leaf, set $M \gets M \cup \{(v_i, v_{i+1})\}$ and 
+    $i \gets i + 2$.
+    \item Otherwise, set $i \gets i + 1$.
+\end{enumerate}
+repeat the above.
 
 \begin{lemma*}
     In the depth first search tree of $G = (V, E)$, there are no edges between leaf 
@@ -31,39 +43,51 @@ minimum cardinality vertex cover.
     contradiction, suppose not, suppose there exist some edge $\{u, v\} \in E$ such that
     $u, v \in L$. Either $u$ or $v$ was explored first in the depth first search tree.
     Without loss of generality, assume $u$ was explored first. Then $v$ must be a child
-    of $u$ in the depth first search tree since it is unexplored and reachable from $u$. 
-    Thus $u$ is not a leaf, which is a contradiction. There must be no edges between 
-    leaf nodes in the depth first search tree.
+    of $u$ in the depth first search tree since, when $u$ was encounted, $v$ was 
+    unexplored and reachable from $u$. Thus $u$ is not a leaf, which is a contradiction. 
+    There must be no edges between leaf nodes in the depth first search tree.
 \end{proof}
 
 \begin{lemma*}
-    The set of nonleaf vertices $S$ in the depth first search tree of $G = (V, E)$ is a 
+    In the depth first search tree of $G = (V, E)$, the set of non-leaf vertices $S$ is a 
     vertex cover of $G$.
 \end{lemma*}
 
 \begin{proof}
-    Any edge $e \in E$ with a nonleaf endpoint is covered by $S$. Then, the only 
-    possible uncovered edges have two leaf endpoints. However, by the lemma, there are
-    no such edges. Hence $S$ is a vertex cover. 
+    Fix some edge $(u, v) \in E$. By the lemma, $u$ or $v$ is a non-leaf vertex so 
+    $u \in S$ or $v \in S$. Hence $(u, v)$ is covered so $S$ is a vertex cover.
 \end{proof}
 
 \begin{theorem*}
-    The set of nonleaf vertices $S$ in the depth first search tree of $G = (V, E)$ is a 
+    The set of edges $M$ is a maximal matching.
+\end{theorem*}
+
+\begin{proof}
+    Since each vertex is added at most once and the edge $\{v_i, v_{i+1}\}$ exists in 
+    the depth-first tree for non-leaf $v_i$, $M$ is a matching. The only unmatched 
+    vertices are leaves, and by the lemma, there are no edges between them. Hence $M$ is
+    a maximal matching.
+\end{proof}
+
+\begin{theorem*}
+    The set of non-leaf vertices $S$ in the depth first search tree of $G = (V, E)$ is a 
     factor 2 approximation for the minimum cardinality vertex cover of $G$.
 \end{theorem*}
 
 \begin{proof}
-    We will show that there is maximal matching of size $|S|$. Construct a matching $M$
-    as follows. Starting with the root of the tree $r$, add $(r, u)$ to $M$ where $u$ is
-    the first child of $r$. Then recurse on the children of $u$ and the children of $r$
-    except $u$. Only recurse on nodes in $S$. This matching is incident to every vertex
-    in $S$. Moreover, by the lemma, this matching is maximal, since there are no edges
-    between vertices outside of $S$ and these are the only unmatched vertices. \\
-
-    By the approximate min-max relation between minimum maximal matching and cardinality
-    vertex cover, $|S|$ is a 2 approximation.
+    By the theorem, there is a maximal matching of size at least $\frac{|S|}{2}$ 
+    edges. Since each vertex is incident to exactly one edge in $M$, taking one vertex
+    from each edge in $M$ yields a vertex cover of size at least $\frac{|S|}{2}$. Hence
+    $\frac{|S|}{2} \leq \opt$ so $|S| \leq 2 \opt$ as desired.
 \end{proof}
 
 \subsection*{Insights}
+
+There are no edges between the leaves in a depth-first search tree. \\
+
+Once a lower bounding scheme is found, it can be used to prove bounds for new 
+algorithms. In this example, maximal matching provided a known bound on cardinality 
+vertex cover, allowing the approximation factor to be proven by constructing a maximal 
+matching from the algorithm's output. 
 
 \end{document}

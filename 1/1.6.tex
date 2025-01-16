@@ -41,7 +41,7 @@ linear programming relaxation. Define
 to be the solution to vertex cover based on the LP-relaxation.
 
 \begin{theorem*}
-    The set $U$ is a vertex cover.
+    $U$ is a vertex cover.
 \end{theorem*}
 
 \begin{proof}
@@ -51,20 +51,20 @@ to be the solution to vertex cover based on the LP-relaxation.
 \end{proof}
 
 \begin{theorem*}
-    The inequality $c(U) \leq 2 \opt_{LP}$ holds.
+    $U$ is a factor 2 approximation for the LP-relaxation.
 \end{theorem*}
 
 \begin{proof}
     We have that
     \begin{align*}
-        c(U) = \sum\limits_{u \in U} 1 \leq \sum\limits_{u \in U} 2 x_u \leq 
-        \sum\limits_{v \in V} 2 x_v = 2 \sum\limits_{v \in V} x_v = 2 \opt_{LP}
+        c(U) = \sum\limits_{u \in U} c(u) \leq 2 \sum\limits_{u \in U} c(u) x_u \leq 
+        2 \sum\limits_{v \in V} c(v) x_v = 2 \opt_{LP}
     \end{align*}
     as desired.
 \end{proof}
 
 \begin{theorem*}
-    $U$ is a factor 2 approximation.
+    $U$ is a factor 2 approximation for vertex cover.
 \end{theorem*}
 
 \begin{proof}
@@ -76,5 +76,17 @@ to be the solution to vertex cover based on the LP-relaxation.
 \end{proof}
 
 \subsection*{Insights}
+
+To obtain a lower bounding scheme for a problem, formulate the problem as an integer 
+linear program and compute the linear programming relaxation. From the solution to the 
+LP-relaxation, re-construct a solution to the original problem via rounding. Consider 
+the approximation factor, say $\alpha$, the rounded solution obtains with respect to the 
+LP-relaxation. Since $\alpha \opt_{LP} \leq \alpha \opt$, analyzing an algorithm with 
+respect to the LP-relaxation can prove approximation factor no better than $\alpha$. \\
+
+\noindent
+Taking the rounded LP-relaxation as the approximation algorithm yields a polynomial time
+approximation algorithm with factor $\alpha$. However, non-LP algorithms might be faster
+in practice (e.g. lower, but still polynomial, time complexity).
 
 \end{document}
